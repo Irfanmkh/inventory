@@ -15,6 +15,7 @@ class MasterProduk extends Model
         'deskripsi',
         'harga_jual',
         'harga_beli',
+        'jumlah',
         'foto'
     ];
 }

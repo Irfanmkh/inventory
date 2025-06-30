@@ -14,8 +14,8 @@ use App\Http\Controllers\Owner\ManajemenUserController;
 // ==============================
 // LOGIN ROUTES
 // ==============================
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login']);
+Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // ==============================
@@ -23,9 +23,24 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 // ==============================
 
 
-Route::middleware(['auth', 'role:owner'])->get('/owner/dashboard', function () {
-    return 'Selamat datang Owner!';
-})->name('owner.dashboard');
+
+
+
+
+Route::get('/dashboard', function () {
+    $user = auth()->user();
+
+    if ($user->hasRole('admin')) {
+        return redirect()->route('admin.dashboard');
+    }
+
+    // Jika ada role lain
+    if ($user->hasRole('owner')) {
+        return redirect()->route('owner.dashboard');
+    }
+
+    abort(403);
+})->middleware('auth');
 
 // ==============================
 // ADMIN ROUTES
@@ -64,11 +79,11 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     // PENJUALAN
     Route::get('/penjualan', [PenjualanController::class, 'index'])->name('penjualan.index');
     Route::get('/penjualan/create', [PenjualanController::class, 'create'])->name('penjualan.create');
-    Route::post('/penjualan', [PenjualanController::class, 'store'])->name('penjualan.store');
-    Route::get('/penjualan/{id}', [PenjualanController::class, 'show'])->name('penjualan.show');
-    Route::get('/penjualan/{id}/edit', [PenjualanController::class, 'edit'])->name('penjualan.edit');
-    Route::put('/penjualan/{id}', [PenjualanController::class, 'update'])->name('penjualan.update');
-    Route::delete('/penjualan/{id}', [PenjualanController::class, 'destroy'])->name('penjualan.destroy');
+    Route::post('/penjualan/store', [PenjualanController::class, 'store'])->name('penjualan.store');
+    Route::get('/penjualan/show/{id}', [PenjualanController::class, 'show'])->name('penjualan.show');
+    Route::get('/penjualan/edit/{id}', [PenjualanController::class, 'edit'])->name('penjualan.edit');
+    Route::put('/penjualan/update/{id}', [PenjualanController::class, 'update'])->name('penjualan.update');
+    Route::delete('/penjualan/delete/{id}', [PenjualanController::class, 'destroy'])->name('penjualan.destroy');
 
     // RETUR BARANG
     Route::get('/retur-barang', [ReturBarangController::class, 'index'])->name('retur.index');
@@ -78,7 +93,6 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::put('/retur-barang/{id}', [ReturBarangController::class, 'update'])->name('retur.update');
     Route::get('/retur-barang/{id}', [ReturBarangController::class, 'show'])->name('retur.show');
     Route::delete('/retur-barang/{id}', [ReturBarangController::class, 'destroy'])->name('retur.destroy');
-
 });
 
 // ==============================

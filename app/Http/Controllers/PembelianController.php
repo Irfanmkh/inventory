@@ -28,8 +28,8 @@ class PembelianController extends Controller
     {
         //
         $produk = MasterProduk::all();
-        $pemasok = MasterPemasok::all();
-        return view('pembelian.create', compact('produk', 'pemasok'));
+        $pemasoks = MasterPemasok::all();
+        return view('pembelian.create', compact('produk', 'pemasoks'));
     }
 
     /**
@@ -46,18 +46,18 @@ class PembelianController extends Controller
 
         Pembelian::create([
             // 'produk_id' => $request->produk_id,
-            'produk_id' => 1,
+            'produk_id' => $request->produk,
             'jumlah_pesanan' => $request->jumlah,
             'jumlah_diterima' => 0,
             // 'pemasok_id' => $request->pemasok_id,
-            'pemasok_id' => 1,
+            'pemasok_id' => $request->pemasok_id,
             'status' => 'Tertunda',
             'riwayat_pesanan' => 'Belum diproses',
             'tanggal_pembelian' => $request->tanggal_pembelian,
             'total_harga' => $request->total_harga,
         ]);
 
-        return redirect()->route('pembelian.index')->with('success', 'Pembelian berhasil ditambahkan.');
+        return redirect()->route('admin.pembelian.index')->with('success', 'Pembelian berhasil ditambahkan.');
     }
 
     /**

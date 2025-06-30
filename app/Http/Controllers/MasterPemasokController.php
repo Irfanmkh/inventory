@@ -16,7 +16,7 @@ class MasterPemasokController extends Controller
     public function index()
     {
         $masterpemasok = MasterPemasok::all();
-        return view('admin.masterpemasok.index', compact('masterpemasok'));
+        return view('masterpemasok.index', compact('masterpemasok'));
     }
 
     /**
@@ -24,7 +24,7 @@ class MasterPemasokController extends Controller
      */
     public function create()
     {
-        return view('admin.masterpemasok.create');
+        return view('masterpemasok.create');
     }
 
     /**
@@ -77,7 +77,7 @@ class MasterPemasokController extends Controller
     public function show(string $id)
     {
         $masterpemasok = MasterPemasok::findOrFail($id);
-        return view('admin.masterpemasok.show', compact('masterpemasok'));
+        return view('masterpemasok.show', compact('masterpemasok'));
     }
 
     /**
@@ -86,7 +86,7 @@ class MasterPemasokController extends Controller
     public function edit(string $id)
     {
         $masterpemasok = MasterPemasok::findOrFail($id);
-        return view('admin.masterpemasok.edit', compact('masterpemasok'));
+        return view('masterpemasok.edit', compact('masterpemasok'));
     }
 
     /**

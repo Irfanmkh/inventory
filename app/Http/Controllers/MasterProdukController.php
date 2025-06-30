@@ -40,6 +40,7 @@ class MasterProdukController extends Controller
                 'jenis' => 'required|max:45',
                 'harga_jual' => 'required|numeric',
                 'harga_beli' => 'required|numeric',
+                'jumlah' => 'required|numeric',
                 'foto' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
             ],
             [
@@ -70,10 +71,12 @@ class MasterProdukController extends Controller
             'harga_jual' => $request->harga_jual,
             'harga_beli' => $request->harga_beli,
             'deskripsi' => $request->deskripsi,
+            'jumlah' => $request->jumlah,
             'foto' => $fileName,
         ]);
 
-        return redirect()->route('index.index');
+        return redirect()->route('admin.masterproduk.index')
+            ->with('success', 'Data berhasil di simpan');
     }
 
     /**
@@ -106,6 +109,7 @@ class MasterProdukController extends Controller
                 'jenis' => 'required|max:45',
                 'harga_jual' => 'required|numeric',
                 'harga_beli' => 'required|numeric',
+                'jumlah' => 'required|numeric',
                 'foto' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
 
             ],
@@ -146,10 +150,11 @@ class MasterProdukController extends Controller
             'harga_jual' => $request->harga_jual,
             'harga_beli' => $request->harga_beli,
             'deskripsi' => $request->deskripsi,
+            'jumlah' => $request->jumlah,
             'foto' => $fileName,
         ]);
 
-        return redirect()->route('index.index');
+        return redirect()->route('admin.masterproduk.index');
     }
 
     /**
@@ -160,7 +165,7 @@ class MasterProdukController extends Controller
         //
         $id->delete();
 
-        return redirect()->route('index.index')
+        return redirect()->route('admin.masterproduk.index')
             ->with('success', 'Data berhasil di hapus');
     }
 }

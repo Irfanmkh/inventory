@@ -40,7 +40,7 @@ class PenjualanController extends Controller
             'tanggal_penjualan' => $request->tanggal_penjualan,
         ]);
 
-        return redirect('/penjualan')->with('success', 'Data penjualan berhasil ditambahkan.');
+        return view('penjualan.index')->with('success', 'Data penjualan berhasil ditambahkan.');
     }
 
     public function show($id)
@@ -69,13 +69,13 @@ class PenjualanController extends Controller
 
         $penjualan->update($request->only('produk_id', 'jumlah_terjual', 'total_harga', 'status', 'tanggal_penjualan',));
 
-        return redirect('/penjualan')->with('success', 'Data penjualan berhasil diperbarui.');
+        return redirect()->route('admin.penjualan.index');
     }
 
     public function destroy($id)
     {
         Penjualan::destroy($id);
-        return redirect('/penjualan')->with('success', 'Data penjualan berhasil dihapus.');
+        return redirect()->route('admin.penjualan.index');
     }
 
     public function grafikPenjualan()
