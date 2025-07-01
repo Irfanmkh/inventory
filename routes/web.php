@@ -89,9 +89,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/retur-barang', [ReturBarangController::class, 'index'])->name('retur.index');
     Route::get('/retur-barang/create', [ReturBarangController::class, 'create'])->name('retur.create');
     Route::post('/retur-barang', [ReturBarangController::class, 'store'])->name('retur.store');
-    Route::get('/retur-barang/{id}/edit', [ReturBarangController::class, 'edit'])->name('retur.edit');
-    Route::put('/retur-barang/{id}', [ReturBarangController::class, 'update'])->name('retur.update');
-    Route::get('/retur-barang/{id}', [ReturBarangController::class, 'show'])->name('retur.show');
+    Route::get('/retur-barang/edit/{id}', [ReturBarangController::class, 'edit'])->name('retur.edit');
+    Route::put('/retur-barang/update/{id}', [ReturBarangController::class, 'update'])->name('retur.update');
+    Route::get('/retur-barang/show/{id}', [ReturBarangController::class, 'show'])->name('retur.show');
     Route::delete('/retur-barang/{id}', [ReturBarangController::class, 'destroy'])->name('retur.destroy');
 });
 
@@ -99,6 +99,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 // OWNER ROUTES
 // ==============================
 Route::middleware(['auth', 'role:owner'])->prefix('owner')->name('owner.')->group(function () {
+
+    Route::get('/dashboard', function () {
+        return view('owner.dashboard'); // → resources/views/admin/dashboard.blade.php
+    })->name('dashboard');
     Route::get('/manajemen-user', [ManajemenUserController::class, 'index'])->name('manajemen-user.index');
     Route::get('/manajemen-user/create', [ManajemenUserController::class, 'create'])->name('manajemen-user.create');
     Route::post('/manajemen-user', [ManajemenUserController::class, 'store'])->name('manajemen-user.store');

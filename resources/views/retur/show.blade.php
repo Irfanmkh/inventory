@@ -26,10 +26,10 @@
 
             <div class="mb-3">
                 <label><strong>Tanggal Retur:</strong></label>
-                <p>{{ $returbarang->tanggal }}</p>
+                <p>{{ $returbarang->tanggal_retur }}</p>
             </div>
 
-            <a href="{{ route('retur.index') }}" class="btn btn-secondary">Kembali</a>
+            <a href="{{ route('admin.retur.index') }}" class="btn btn-secondary">Kembali</a>
         </div>
     </div>
 </div>

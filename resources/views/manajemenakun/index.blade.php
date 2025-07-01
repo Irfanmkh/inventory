@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('layouts.owner')
 @section('content')
 <div class="container-fluid px-4">
     <h1 class="mt-4">Manajemen User (Admin)</h1>
@@ -9,7 +9,7 @@
     <div class="card mb-4">
         <div class="card-header d-flex justify-content-between align-items-center">
             <span><i class="fas fa-users me-1"></i> Daftar Admin</span>
-            <a href="{{ route('manajemen-user.create') }}" class="btn btn-sm btn-primary">Tambah Admin</a>
+            <a href="{{ route('owner.manajemen-user.create') }}" class="btn btn-sm btn-primary">Tambah Admin</a>
         </div>
         <div class="card-body">
             @if (session('success'))
@@ -32,8 +32,8 @@
                         <td>{{ $pengguna->name }}</td>
                         <td>{{ $pengguna->email }}</td>
                         <td>
-                            <a href="{{ route('manajemen-user.edit', $pengguna->id) }}" class="btn btn-sm btn-warning">Edit</a>
-                            <form action="{{ route('manajemen-user.destroy', $pengguna->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus user ini?')">
+                            <a href="{{ route('owner.manajemen-user.edit', $pengguna->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                            <form action="{{ route('owner.manajemen-user.destroy', $pengguna->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus user ini?')">
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-sm btn-danger" type="submit">Hapus</button>

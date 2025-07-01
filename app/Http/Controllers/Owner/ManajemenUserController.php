@@ -11,37 +11,37 @@ class ManajemenUserController extends Controller
 {
     public function index()
     {
-        $admins = Pengguna::where('role', 'admin')->get();
-        return view('owner.manajemen_user.index', compact('admins'));
+        $penggunas = Pengguna::where('role', 'admin')->get();
+        return view('manajemenakun.index', compact('penggunas'));
     }
 
     public function create()
     {
-        return view('owner.manajemen_user.create');
+        return view('manajemenakun.create');
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required',
+            'name' => 'required',
             'email' => 'required|email|unique:penggunas,email',
             'password' => 'required|min:6',
         ]);
 
         Pengguna::create([
-            'nama' => $request->nama,
+            'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => 'admin',
         ]);
 
-        return redirect()->route('owner.user.index')->with('success', 'Admin berhasil ditambahkan.');
+        return redirect()->route('owner.manajemen-user.index')->with('success', 'Admin berhasil ditambahkan.');
     }
 
     public function edit($id)
     {
         $admin = Pengguna::findOrFail($id);
-        return view('owner.manajemen_user.edit', compact('admin'));
+        return view('manajemenakun.edit', compact('admin'));
     }
 
     public function update(Request $request, $id)
@@ -60,7 +60,7 @@ class ManajemenUserController extends Controller
         }
         $admin->save();
 
-        return redirect()->route('owner.user.index')->with('success', 'Admin berhasil diperbarui.');
+        return redirect()->route('owner.manajemen-user.index')->with('success', 'Admin berhasil diperbarui.');
     }
 
     public function destroy($id)
@@ -68,6 +68,6 @@ class ManajemenUserController extends Controller
         $admin = Pengguna::findOrFail($id);
         $admin->delete();
 
-        return redirect()->route('owner.user.index')->with('success', 'Admin berhasil dihapus.');
+        return redirect()->route('owner.manajemen-user.index')->with('success', 'Admin berhasil dihapus.');
     }
 }

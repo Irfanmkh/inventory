@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('layouts.owner')
 @section('content')
 <div class="container-fluid px-4">
     <h1 class="mt-4">Tambah Admin</h1>
@@ -12,7 +12,7 @@
             Form Tambah Admin
         </div>
         <div class="card-body">
-            <form action="{{ route('manajemen-user.store') }}" method="POST">
+            <form action="{{ route('owner.manajemen-user.store') }}" method="POST">
                 @csrf
                 <div class="form-group mb-2">
                     <label for="name">Nama:</label>

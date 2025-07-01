@@ -40,7 +40,7 @@ class ReturBarangController extends Controller
             'tanggal_retur' => $request->tanggal_retur,
         ]);
 
-        return redirect()->route('retur.index')->with('success', 'Data retur barang berhasil ditambahkan.');
+        return redirect()->route('admin.retur.index')->with('success', 'Data retur barang berhasil ditambahkan.');
     }
 
     // Menampilkan form edit
@@ -69,7 +69,7 @@ class ReturBarangController extends Controller
             'tanggal_retur' => $request->tanggal_retur,
         ]);
 
-        return redirect()->route('retur.index')->with('success', 'Data retur barang berhasil diperbarui.');
+        return redirect()->route('admin.retur.index')->with('success', 'Data retur barang berhasil diperbarui.');
     }
 
     // Menghapus retur barang
@@ -78,6 +78,13 @@ class ReturBarangController extends Controller
         $retur = ReturBarang::findOrFail($id);
         $retur->delete();
 
-        return redirect()->route('retur.index')->with('success', 'Data retur barang berhasil dihapus.');
+        return redirect()->route('admin.retur.index')->with('success', 'Data retur barang berhasil dihapus.');
+    }
+
+    public function show(string $id)
+    {
+        //
+        $returbarang = ReturBarang::with(['produk'])->findOrFail($id);
+        return view('retur.show', compact('returbarang'));
     }
 }

@@ -9,7 +9,7 @@
     <div class="card mb-4">
         <div class="card-header">Tambah Retur</div>
         <div class="card-body">
-            <form action="{{ route('retur.store') }}" method="POST">
+            <form action="{{ route('admin.retur.store') }}" method="POST">
                 @csrf
                 <div class="form-group">
                     <label for="produk_id">Produk:</label>
@@ -36,7 +36,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary mt-4">Simpan</button>
-                <a href="{{ route('retur.index') }}" class="btn btn-secondary mt-4">Kembali</a>
+                <a href="{{ route('admin.retur.index') }}" class="btn btn-secondary mt-4">Kembali</a>
             </form>
         </div>
     </div>

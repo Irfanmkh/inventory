@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('layouts.owner')
 @section('content')
 <div class="container-fluid px-4">
     <h1 class="mt-4">Edit Admin</h1>
@@ -12,7 +12,7 @@
             Form Edit Admin
         </div>
         <div class="card-body">
-            <form action="{{ route('manajemen-user.update', $pengguna->id) }}" method="POST">
+            <form action="{{ route('owner.manajemen-user.update', $pengguna->id) }}" method="POST">
                 @csrf
                 @method('PUT')
 

@@ -9,7 +9,7 @@
     <div class="card mb-4">
         <div class="card-header">Form Edit Retur Barang</div>
         <div class="card-body">
-            <form action="{{ route('retur.update', $retur->id) }}" method="POST">
+            <form action="{{ route('admin.retur.update', $retur->id) }}" method="POST">
                 @csrf
                 @method('PUT')
 
@@ -50,7 +50,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary mt-4">Update</button>
-                <a href="{{ route('retur.index') }}" class="btn btn-secondary mt-4">Kembali</a>
+                <a href="{{ route('admin.retur.index') }}" class="btn btn-secondary mt-4">Kembali</a>
             </form>
         </div>
     </div>
