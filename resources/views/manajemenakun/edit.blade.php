@@ -12,18 +12,18 @@
             Form Edit Admin
         </div>
         <div class="card-body">
-            <form action="{{ route('owner.manajemen-user.update', $pengguna->id) }}" method="POST">
+            <form action="{{ route('owner.manajemen-user.update', $penggunas->id) }}" method="POST">
                 @csrf
                 @method('PUT')
 
                 <div class="form-group mb-2">
                     <label for="name">Nama:</label>
-                    <input type="text" class="form-control" id="name" name="name" value="{{ $pengguna->name }}">
+                    <input type="text" class="form-control" id="name" name="name" value="{{ $penggunas->name }}">
                 </div>
 
                 <div class="form-group mb-2">
                     <label for="email">Email:</label>
-                    <input type="email" class="form-control" id="email" name="email" value="{{ $pengguna->email }}">
+                    <input type="email" class="form-control" id="email" name="email" value="{{ $penggunas->email }}">
                 </div>
 
                 <div class="form-group mb-2">

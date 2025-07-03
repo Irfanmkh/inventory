@@ -28,6 +28,7 @@ class PenjualanController extends Controller
         //     'jumlah_terjual' => 'required|integer|min:1',
         //     'tanggal_penjualan' => 'required|date',
         // ]);
+        $penjualans = Penjualan::all();
 
         $produk = MasterProduk::findOrFail($request->produk_id);
         $total_harga = $produk->harga_jual * $request->jumlah_terjual;
@@ -40,13 +41,13 @@ class PenjualanController extends Controller
             'tanggal_penjualan' => $request->tanggal_penjualan,
         ]);
 
-        return view('penjualan.index')->with('success', 'Data penjualan berhasil ditambahkan.');
+        return view('penjualan.index', compact('penjualans', 'produk', 'total_harga'))->with('success', 'Data penjualan berhasil ditambahkan.');
     }
 
     public function show($id)
     {
-        $penjualan = Penjualan::with('produk')->findOrFail($id);
-        return view('penjualan.show', compact('penjualan'));
+        $penjualans = Penjualan::with('produk')->findOrFail($id);
+        return view('penjualan.show', compact('penjualans'));
     }
 
     public function edit($id)

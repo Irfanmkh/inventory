@@ -3,12 +3,14 @@
 use Illuminate\Support\Facades\Route;
 
 // Controllers
-use App\Http\Controllers\MasterProdukController;
-use App\Http\Controllers\MasterPemasokController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PembelianController;
 use App\Http\Controllers\PenjualanController;
-use App\Http\Controllers\ReturBarangController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\DashbooardController;
+use App\Http\Controllers\ReturBarangController;
+use App\Http\Controllers\MasterProdukController;
+use App\Http\Controllers\MasterPemasokController;
 use App\Http\Controllers\Owner\ManajemenUserController;
 
 // ==============================
@@ -46,10 +48,11 @@ Route::get('/dashboard', function () {
 // ADMIN ROUTES
 // ==============================
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard'); // → resources/views/admin/dashboard.blade.php
-    })->name('dashboard');
-    // MASTER PRODUK
+    // Route::get('/dashboard', function () {
+        //     return view('admin.dashboard'); // → resources/views/admin/dashboard.blade.php
+        // })->name('dashboard');
+        // MASTER PRODUK
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/masterproduk', [MasterProdukController::class, 'index'])->name('masterproduk.index');
     Route::get('/masterproduk/create', [MasterProdukController::class, 'create'])->name('masterproduk.create');
     Route::post('/masterproduk/store', [MasterProdukController::class, 'store'])->name('masterproduk.store');

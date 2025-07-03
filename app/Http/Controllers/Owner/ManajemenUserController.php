@@ -40,8 +40,8 @@ class ManajemenUserController extends Controller
 
     public function edit($id)
     {
-        $admin = Pengguna::findOrFail($id);
-        return view('manajemenakun.edit', compact('admin'));
+        $penggunas = Pengguna::findOrFail($id);
+        return view('manajemenakun.edit', compact('penggunas'));
     }
 
     public function update(Request $request, $id)
@@ -49,11 +49,11 @@ class ManajemenUserController extends Controller
         $admin = Pengguna::findOrFail($id);
 
         $request->validate([
-            'nama' => 'required',
+            'name' => 'required',
             'email' => 'required|email|unique:penggunas,email,' . $admin->id,
         ]);
 
-        $admin->nama = $request->nama;
+        $admin->name = $request->name;
         $admin->email = $request->email;
         if ($request->filled('password')) {
             $admin->password = Hash::make($request->password);
