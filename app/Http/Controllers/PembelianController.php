@@ -8,7 +8,6 @@ use App\Models\Pembelian;
 use App\Models\MasterProduk;
 use App\Models\MasterPemasok;
 
-
 class PembelianController extends Controller
 {
     /**
@@ -30,6 +29,12 @@ class PembelianController extends Controller
         $produk = MasterProduk::all();
         $pemasoks = MasterPemasok::all();
         return view('pembelian.create', compact('produk', 'pemasoks'));
+    }
+
+    public function getProdukByPemasok($id)
+    {
+        $pemasok = MasterPemasok::with('produks')->findOrFail($id);
+        return response()->json($pemasok->produks); // kirimkan daftar produk milik pemasok itu
     }
 
     /**
@@ -96,8 +101,7 @@ class PembelianController extends Controller
         // ]);
 
         $pembelian = Pembelian::findOrFail($id);
-        $pembelian->update($request->only('tanggal_pembelian', 'pemasok', 'produk', 'jumlah_pesanan', 'status',));
-
+        $pembelian->update($request->only('tanggal_pembelian', 'pemasok', 'produk', 'jumlah_pesanan', 'status'));
 
         return redirect()->route('pembelian.index')->with('success', 'Data pembelian berhasil diperbarui.');
     }

@@ -38,4 +38,5 @@ class MasterPemasok extends Model
             $model->diperbarui_pada = Carbon::now();
         });
     }
+    
 }

@@ -9,13 +9,10 @@ class MasterProduk extends Model
 {
     use HasFactory;
     protected $table = 'master_produks';
-    protected $fillable = [
-        'nama',
-        'jenis',
-        'deskripsi',
-        'harga_jual',
-        'harga_beli',
-        'jumlah',
-        'foto'
-    ];
+    protected $fillable = ['nama', 'jenis', 'deskripsi', 'harga_jual', 'harga_beli', 'jumlah', 'foto'];
+
+    public function pemasok()
+    {
+        return $this->belongsTo(MasterPemasok::class, 'pemasok_id');
+    }
 }

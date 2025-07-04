@@ -16,11 +16,11 @@
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="kategori-tab" data-bs-toggle="tab" data-bs-target="#total" type="button"
-                    role="tab">Kategori Produk</button>
+                    role="tab">Total Produk</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="pendapatan-tab" data-bs-toggle="tab" data-bs-target="#pendapatan"
-                    type="button" role="tab">Pendapatan Bulanan</button>
+                <button class="nav-link" id="retur-tab" data-bs-toggle="tab" data-bs-target="#retur" type="button"
+                    role="tab">Total retur</button>
             </li>
         </ul>
 
@@ -42,11 +42,11 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-pane fade" id="pendapatan" role="tabpanel">
+            <div class="tab-pane fade" id="retur" role="tabpanel">
                 <div class="card p-3">
-                    <h5 class="mb-3">Grafik Pendapatan Bulanan</h5>
+                    <h5 class="mb-3">Grafik Total Retur</h5>
                     <div style="position: relative; height: 250px;">
-                        <canvas id="pendapatanChart"></canvas>
+                        <canvas id="returChart"></canvas>
                     </div>
                 </div>
             </div>
@@ -83,7 +83,6 @@
             }
         });
 
-        // Dummy data grafik kategori
         const kategoriChart = new Chart(document.getElementById('totalChart'), {
             type: 'bar',
             data: {
@@ -94,10 +93,10 @@
                     backgroundColor: 'rgba(75, 192, 192, 0.6)',
                     borderColor: 'rgba(75, 192, 192, 1)',
                     borderWidth: 1
-                        
-                        
-                    
-                    
+
+
+
+
                 }]
             },
             options: {
@@ -106,24 +105,30 @@
                 scales: {
                     y: {
                         beginAtZero: true,
-                        precision: 0
+                        ticks: {
+                            stepSize: 1,
+                            precision: 0,
+                            callback: function(value) {
+                                return Number.isInteger(value) ? value : null;
+                            }
+                        }
                     }
                 }
             }
+
         });
 
-        // Dummy data grafik pendapatan
-        const pendapatanChart = new Chart(document.getElementById('pendapatanChart'), {
-            type: 'line',
+
+        const returChart = new Chart(document.getElementById('returChart'), {
+            type: 'bar',
             data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun'],
+                labels: {!! json_encode($returLabels) !!},
                 datasets: [{
-                    label: 'Pendapatan (Rp)',
-                    data: [5000000, 7000000, 6000000, 8000000, 7500000, 9000000],
-                    borderColor: 'rgba(153, 102, 255, 1)',
-                    backgroundColor: 'rgba(153, 102, 255, 0.3)',
-                    fill: true,
-                    tension: 0.4
+                    label: 'Jumlah Retur',
+                    data: {!! json_encode($returData) !!},
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
                 }]
             },
             options: {
@@ -131,10 +136,18 @@
                 maintainAspectRatio: false,
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1,
+                            precision: 0,
+                            callback: function(value) {
+                                return Number.isInteger(value) ? value : null;
+                            }
+                        }
                     }
                 }
             }
+
         });
     </script>
 @endsection

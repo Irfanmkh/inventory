@@ -8,23 +8,23 @@
                 <table class="table table-bordered">
                     <tr>
                         <th>Produk</th>
-                        <td>{{ $penjualan->produk->nama }}</td>
+                        <td>{{ $penjualans->produk->nama }}</td>
                     </tr>
                     <tr>
                         <th>Jumlah Terjual</th>
-                        <td>{{ $penjualan->jumlah_terjual }}</td>
+                        <td>{{ $penjualans->jumlah_terjual }}</td>
                     </tr>
                     <tr>
                         <th>Total Harga</th>
-                        <td>{{ $penjualan->total_harga }}</td>
+                        <td>{{ $penjualans->total_harga }}</td>
                     </tr>
                     <tr>
                         <th>Status</th>
-                        <td>{{ $penjualan->status }}</td>
+                        <td>{{ $penjualans->status }}</td>
                     </tr>
                     <tr>
                         <th>Tanggal Penjualan</th>
-                        <td>{{ $penjualan->tanggal_penjualan }}</td>
+                        <td>{{ $penjualans->tanggal_penjualan }}</td>
                     </tr>
                 </table>
                 <a href="{{ route('admin.penjualan.index') }}" class="btn btn-secondary">Kembali</a>

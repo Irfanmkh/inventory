@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MasterProduk;
 use App\Models\Penjualan;
+use App\Models\ReturBarang;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -29,9 +30,19 @@ class DashboardController extends Controller
         $totalLabels = $totals->pluck('jenis')->toArray();
         $totalData = $totals->pluck('total')->toArray();
 
-       
+       // =======================================================
 
-        return view('admin.dashboard', compact('lariss', 'larisLabels', 'larisData', 'totals', 'totalLabels', 'totalData'));
+       $returs = ReturBarang::selectRaw('produk_id, SUM(jumlah) as total_retur')
+       ->with('produk')
+       ->groupBy('produk_id')
+       ->orderByDesc('total_retur')
+       ->get();
+
+       $returLabels = $returs->map(fn($p) => $p->produk->nama ?? 'Unknown')->toArray();
+       $returData = $returs->map(fn($p) => $p->total_retur)->toArray();
+
+
+        return view('admin.dashboard', compact('lariss', 'larisLabels', 'larisData', 'totals', 'totalLabels', 'totalData', 'returs', 'returLabels', 'returData'));
     }
 
 
