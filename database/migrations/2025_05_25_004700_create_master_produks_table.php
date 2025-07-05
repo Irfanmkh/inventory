@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('master_produks', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
+            $table->foreignId('pembelian_id')->nullable()->constrained('pembelian')->onDelete('cascade');
+
             $table->string('jenis');
             $table->text('deskripsi')->nullable();
             $table->decimal('harga_jual', 10, 2);

@@ -41,7 +41,7 @@
                         @foreach ($masterproduk as $k)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $k->nama }}</td>
+                                <td>{{ $k->pembelian->nama_produk ?? '-' }}</td>
                                 <td>{{ $k->jenis }}</td>
                                 <td>{{ $k->deskripsi }}</td>
                                 <td>{{ $k->harga_jual }}</td>

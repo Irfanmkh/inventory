@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Models\Pembelian;
 use App\Models\MasterProduk;
 use Illuminate\Http\Request;
+use App\Models\MasterPemasok;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
 class MasterProdukController extends Controller
 {
@@ -15,7 +17,7 @@ class MasterProdukController extends Controller
     public function index()
     {
         //
-        $masterproduk = MasterProduk::all();
+        $masterproduk = MasterProduk::with('pembelian')->get();
         return view('masterproduk.index', compact('masterproduk'));
     }
 
@@ -24,8 +26,11 @@ class MasterProdukController extends Controller
      */
     public function create()
     {
-        //
-        return view('masterproduk.create');
+        $pemasoks = MasterPemasok::all();
+        $pembelians = Pembelian::select('id', 'nama_produk', 'harga_satuan', 'jumlah_pesanan')->get();
+
+
+        return view('masterproduk.create', compact('pemasoks', 'pembelians'));
     }
 
     /**
@@ -34,13 +39,22 @@ class MasterProdukController extends Controller
     public function store(Request $request)
     {
         //
+        $pembelian = Pembelian::find($request->pembelian_id);
         $request->validate(
             [
                 'nama' => 'required|max:45',
                 'jenis' => 'required|max:45',
                 'harga_jual' => 'required|numeric',
                 'harga_beli' => 'required|numeric',
-                'jumlah' => 'required|numeric',
+                'jumlah' => [
+                    'required',
+                    'numeric',
+                    function ($attribute, $value, $fail) use ($pembelian) {
+                        if ($pembelian && $value > $pembelian->jumlah_pesanan) {
+                            $fail('Jumlah tidak boleh melebihi stok pembelian: ' . $pembelian->jumlah_pesanan);
+                        }
+                    }
+                ],
                 'foto' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
             ],
             [
@@ -66,13 +80,16 @@ class MasterProdukController extends Controller
 
         //tambah data produk
         DB::table('master_produks')->insert([
-            'nama' => $request->nama,
+            'nama' => $pembelian ? $pembelian->nama_produk : '-',
             'jenis' => $request->jenis,
             'harga_jual' => $request->harga_jual,
             'harga_beli' => $request->harga_beli,
             'deskripsi' => $request->deskripsi,
             'jumlah' => $request->jumlah,
             'foto' => $fileName,
+            'pembelian_id' => $request->pembelian_id,
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
 
         return redirect()->route('admin.masterproduk.index')

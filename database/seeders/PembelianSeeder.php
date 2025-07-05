@@ -29,7 +29,7 @@ class PembelianSeeder extends Seeder
 
             Pembelian::create([
                 'tanggal_pembelian' => Carbon::now()->subDays($i),
-                'produk_id'         => $masterproduk->id,
+                'nama_produk'         => 'Televisi',
                 'pemasok_id'        => $masterpemasok->id,
                 'jumlah_pesanan'    => $jumlah,
                 'jumlah_diterima'   => rand(0, $jumlah),

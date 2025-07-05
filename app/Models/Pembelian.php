@@ -12,10 +12,11 @@ class Pembelian extends Model
     protected $table = 'pembelian';
 
     protected $fillable = [
-        'produk_id',
+        'nama_produk',
         'jumlah_pesanan',
         'jumlah_diterima',
         'pemasok_id',
+        'harga_satuan',
         'tanggal_pembelian',
         'total_harga',
         'status',
@@ -33,6 +34,8 @@ class Pembelian extends Model
     {
         return $this->belongsTo(MasterPemasok::class);
     }
+
+
 
     // Relasi ke User (yang memesan)
 

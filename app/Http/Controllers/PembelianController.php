@@ -26,16 +26,12 @@ class PembelianController extends Controller
     public function create()
     {
         //
-        $produk = MasterProduk::all();
+        // $produk = MasterProduk::all();
         $pemasoks = MasterPemasok::all();
-        return view('pembelian.create', compact('produk', 'pemasoks'));
+        return view('pembelian.create', compact('pemasoks'));
     }
 
-    public function getProdukByPemasok($id)
-    {
-        $pemasok = MasterPemasok::with('produks')->findOrFail($id);
-        return response()->json($pemasok->produks); // kirimkan daftar produk milik pemasok itu
-    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -51,7 +47,7 @@ class PembelianController extends Controller
 
         Pembelian::create([
             // 'produk_id' => $request->produk_id,
-            'produk_id' => $request->produk,
+            'nama_produk' => $request->produk,
             'jumlah_pesanan' => $request->jumlah,
             'jumlah_diterima' => 0,
             // 'pemasok_id' => $request->pemasok_id,
@@ -60,6 +56,7 @@ class PembelianController extends Controller
             'riwayat_pesanan' => 'Belum diproses',
             'tanggal_pembelian' => $request->tanggal_pembelian,
             'total_harga' => $request->total_harga,
+            'harga_satuan' => $request->harga_satuan,
         ]);
 
         return redirect()->route('admin.pembelian.index')->with('success', 'Pembelian berhasil ditambahkan.');
@@ -93,17 +90,17 @@ class PembelianController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // dd($request);
-        // $request->validate([
-        //     'jumlah_diterima' => 'required|integer',
-        //     'status' => 'required|string',
-        //     'riwayat_pesanan' => 'nullable|string',
-        // ]);
+
+        $request->validate([
+            'harga_satuan' => 'required|numeric|min:0',
+            'jumlah_pesanan' => 'required|integer|min:1',
+        ]);
+
 
         $pembelian = Pembelian::findOrFail($id);
-        $pembelian->update($request->only('tanggal_pembelian', 'pemasok', 'produk', 'jumlah_pesanan', 'status'));
+        $pembelian->update($request->only('tanggal_pembelian', 'pemasok_id', 'nama_produk', 'jumlah_pesanan', 'harga_satuan', 'total_harga', 'status'));
 
-        return redirect()->route('pembelian.index')->with('success', 'Data pembelian berhasil diperbarui.');
+        return redirect()->route('admin.pembelian.index')->with('success', 'Data pembelian berhasil diperbarui.');
     }
 
     /**
@@ -114,6 +111,6 @@ class PembelianController extends Controller
         //
         $pembelian = Pembelian::findOrFail($id);
         $pembelian->delete();
-        return redirect()->route('pembelian.index')->with('success', 'Data pembelian berhasil dihapus.');
+        return redirect()->route('admin.pembelian.index')->with('success', 'Data pembelian berhasil dihapus.');
     }
 }

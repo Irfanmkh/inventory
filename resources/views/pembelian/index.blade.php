@@ -29,7 +29,7 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->tanggal_pembelian }}</td>
-                                <td>{{ $item->produk->nama ?? '-' }}</td>
+                                <td>{{ $item->nama_produk ?? '-' }}</td>
                                 <td>{{ $item->pemasok->nama_pemasok ?? '-'  }}</td>
                                 <td>{{ $item->jumlah_pesanan }}</td>
                                 <td>Rp {{ number_format($item->total_harga, 0, ',', '.') }}</td>

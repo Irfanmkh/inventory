@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('pembelian', function (Blueprint $table) {
             $table->id();
             $table->date('tanggal_pembelian');
-            $table->foreignId('produk_id')->constrained('master_produks');
+            // $table->foreignId('produk_id')->constrained('master_produks');
+            $table->string('nama_produk');
             $table->foreignId('pemasok_id')->constrained('master_pemasoks');
             $table->integer('jumlah_pesanan');
             $table->integer('jumlah_diterima')->default(0);
