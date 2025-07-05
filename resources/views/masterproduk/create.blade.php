@@ -16,21 +16,24 @@
                     @csrf
                     <div class="form-group">
                         <div class="form-group">
-                            <label for="nama">Pilih Produk:</label>
-                            <select required class="form-control @error('nama') is-invalid @enderror" id="nama" name="nama">
+                            <label for="pembelian_id">Pilih Produk:</label>
+                            <select required class="form-control @error('pembelian_id') is-invalid @enderror" id="pembelian_id" name="pembelian_id">
                                 <option value="">-- Pilih Produk --</option>
                                 @foreach($pembelians as $pembelian)
-                                    <option value="{{ $pembelian->id }}" data-harga="{{ $pembelian->harga_satuan }}"
-                                        data-jumlah="{{ $pembelian->jumlah_pesanan }}" {{ old('nama') == $pembelian->id ? 'selected' : '' }}>
+                                    <option value="{{ $pembelian->id }}" 
+                                        data-harga="{{ $pembelian->harga_satuan }}"
+                                        data-jumlah="{{ $pembelian->jumlah_pesanan }}"
+                                        {{ old('pembelian_id') == $pembelian->id ? 'selected' : '' }}>
                                         {{ $pembelian->nama_produk }}
                                     </option>
                                 @endforeach
                             </select>
-
-                            @error('nama')
+                        
+                            @error('pembelian_id')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                        
 
                         <div class="form-group">
                             <label for="jenis">Jenis:</label>
@@ -84,7 +87,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const selectProduk = document.getElementById('nama');
+            const selectProduk = document.getElementById('pembelian_id');
             const inputHargaBeli = document.getElementById('harga_beli');
             const inputJumlah = document.getElementById('jumlah');
 

@@ -9,7 +9,7 @@ class MasterProduk extends Model
 {
     use HasFactory;
     protected $table = 'master_produks';
-    protected $fillable = ['nama', 'jenis', 'deskripsi', 'harga_jual', 'harga_beli', 'jumlah', 'foto', 'pemasok_id'];
+    protected $fillable = ['nama', 'jenis', 'deskripsi', 'harga_jual', 'harga_beli', 'jumlah', 'foto', 'pemasok_id', 'pembelian_id'];
 
     public function pemasok()
     {
@@ -18,6 +18,6 @@ class MasterProduk extends Model
 
     public function pembelian()
     {
-        return $this->belongsTo(Pembelian::class, 'pemasok_id');
+        return $this->belongsTo(Pembelian::class, 'pembelian_id');
     }
 }

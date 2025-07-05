@@ -17,10 +17,20 @@
                     @csrf
                     @method('put')
                     <div class="form-group">
-                        <label for="nama">Nama:</label>
-                        <input type="text" class="form-control @error('nama') is-invalid @enderror" id="nama" name="nama"
-                            value="{{ $id->nama }}">
-                        @error('nama')
+                        <label for="pembelian_id">Pilih Produk:</label>
+                        <select required class="form-control @error('pembelian_id') is-invalid @enderror" id="pembelian_id" name="pembelian_id">
+                            <option value="">-- Pilih Produk --</option>
+                            @foreach($pembelians as $pembelian)
+                                <option value="{{ $pembelian->id }}" 
+                                    data-harga="{{ $pembelian->harga_satuan }}"
+                                    data-jumlah="{{ $pembelian->jumlah_pesanan }}"
+                                    {{ old('pembelian_id') == $pembelian->id ? 'selected' : '' }}>
+                                    {{ $pembelian->nama_produk }}
+                                </option>
+                            @endforeach
+                        </select>
+                    
+                        @error('pembelian_id')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
@@ -86,4 +96,28 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const selectProduk = document.getElementById('pembelian_id');
+            const inputHargaBeli = document.getElementById('harga_beli');
+            const inputJumlah = document.getElementById('jumlah');
+
+            // Fungsi untuk update harga beli berdasarkan pilihan
+            function updateHargaBeli() {
+                const selectedOption = selectProduk.options[selectProduk.selectedIndex];
+                const harga = selectedOption.getAttribute('data-harga');
+                const maxJumlah = selectedOption.getAttribute('data-jumlah');
+                inputHargaBeli.value = harga || '';
+                inputJumlah.max = maxJumlah || '';
+            }
+
+            // Jalankan saat halaman pertama kali load
+            updateHargaBeli();
+
+            // Jalankan saat pilihan berubah
+            selectProduk.addEventListener('change', updateHargaBeli);
+        });
+    </script>
+
 @endsection

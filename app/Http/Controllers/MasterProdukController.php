@@ -38,11 +38,11 @@ class MasterProdukController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $pembelian = Pembelian::find($request->pembelian_id);
+    
         $request->validate(
             [
-                'nama' => 'required|max:45',
+                'pembelian_id' => 'required|exists:pembelian,id',
                 'jenis' => 'required|max:45',
                 'harga_jual' => 'required|numeric',
                 'harga_beli' => 'required|numeric',
@@ -58,27 +58,23 @@ class MasterProdukController extends Controller
                 'foto' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
             ],
             [
-                'nama.required' => 'Nama wajib diisi',
-                'nama.max' => 'Nama maksimal 45 karakter',
-                'jenis.required' => 'jenis wajib diisi',
-                'jenis.max' => 'jenis maksimal 45 karakter',
+                'pembelian_id.required' => 'Produk wajib dipilih',
+                'pembelian_id.exists' => 'Produk tidak valid',
+                'jenis.required' => 'Jenis wajib diisi',
+                'jenis.max' => 'Jenis maksimal 45 karakter',
                 'foto.max' => 'Foto maksimal 2 MB',
-                'foto.mimes' => 'File ekstensi hanya bisa jpg,png,jpeg,gif, svg',
+                'foto.mimes' => 'File ekstensi hanya bisa jpg,png,jpeg,gif,svg',
                 'foto.image' => 'File harus berbentuk image'
             ]
         );
-
-        //jika file foto ada yang terupload
+    
         if (!empty($request->foto)) {
-            //maka proses berikut yang dijalankan
             $fileName = 'foto-' . uniqid() . '.' . $request->foto->extension();
-            //setelah tau fotonya sudah masuk maka tempatkan ke public
             $request->foto->move(public_path('image'), $fileName);
         } else {
             $fileName = 'nophoto.jpg';
         }
-
-        //tambah data produk
+    
         DB::table('master_produks')->insert([
             'nama' => $pembelian ? $pembelian->nama_produk : '-',
             'jenis' => $request->jenis,
@@ -91,10 +87,11 @@ class MasterProdukController extends Controller
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-
+    
         return redirect()->route('admin.masterproduk.index')
-            ->with('success', 'Data berhasil di simpan');
+            ->with('success', 'Data berhasil disimpan');
     }
+    
 
     /**
      * Display the specified resource.
@@ -111,7 +108,8 @@ class MasterProdukController extends Controller
     public function edit(MasterProduk $id)
     {
         //
-        return view('masterproduk.edit', compact('id'));
+        $pembelians = Pembelian::select('id', 'nama_produk', 'harga_satuan', 'jumlah_pesanan')->get();
+        return view('masterproduk.edit', compact('id', 'pembelians'));
     }
 
     /**
@@ -119,10 +117,13 @@ class MasterProdukController extends Controller
      */
     public function update(Request $request, string $id)
     {
+
+        $pembelians = Pembelian::find($request->pembelian_id);
+
         //dd($request);
         $request->validate(
             [
-                'nama' => 'required|max:45',
+                'pembelian_id' => 'required|exists:pembelian,id',
                 'jenis' => 'required|max:45',
                 'harga_jual' => 'required|numeric',
                 'harga_beli' => 'required|numeric',
@@ -131,8 +132,7 @@ class MasterProdukController extends Controller
 
             ],
             [
-                'nama.required' => 'Nama wajib diisi',
-                'nama.max' => 'Nama maksimal 45 karakter',
+                'pembelian_id.required' => 'Produk wajib dipilih',
                 'jenis.required' => 'jenis wajib diisi',
                 'jenis.max' => 'jenis maksimal 45 karakter',
                 'foto.max' => 'Foto maksimal 2 MB',
@@ -143,10 +143,12 @@ class MasterProdukController extends Controller
 
 
         //foto lama
-        $fotoLama = DB::table('master_produks')->select('foto')->where('id', $id)->get();
-        foreach ($fotoLama as $f1) {
-            $fotoLama = $f1->foto;
-        }
+        // $fotoLama = DB::table('master_produks')->select('foto')->where('id', $id)->get();
+        // foreach ($fotoLama as $f1) {
+        //     $fotoLama = $f1->foto;
+        // }
+
+        $fotoLama = DB::table('master_produks')->where('id', $id)->value('foto');
 
         //jika foto sudah ada yang terupload
         if (!empty($request->foto)) {
@@ -162,7 +164,7 @@ class MasterProdukController extends Controller
 
         //update data produk
         DB::table('master_produks')->where('id', $id)->update([
-            'nama' => $request->nama,
+            'nama' => $pembelians ? $pembelians->nama_produk : '-',
             'jenis' => $request->jenis,
             'harga_jual' => $request->harga_jual,
             'harga_beli' => $request->harga_beli,
